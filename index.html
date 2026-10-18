@@ -17,6 +17,9 @@
            match /users/{uid}/events/{id} {
              allow read, write: if request.auth != null && request.auth.uid == uid;
            }
+           match /users/{uid}/tania_events/{id} {
+             allow read, write: if request.auth != null && request.auth.uid == uid;
+           }
          }
        }
   4. Sube este archivo como index.html a GitHub y activa Pages.
@@ -129,6 +132,7 @@ const firebaseConfig = {
 
 const PASTELS = ["#ffd6e0","#ffe5c7","#fff6bf","#d4f5d0","#c9f0ef","#cfe3ff","#e1d6ff","#f3d4f0"];
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const MESES_CORTOS = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 const DIAS = ["D","L","M","M","J","V","S"];
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2,"0");
@@ -262,7 +266,7 @@ function render(){
 function renderList(){
   const d = parse(sel);
   const names = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
-  $("dayTitle").textContent = `${names[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  $("dayTitle").textContent = `${names[d.getDay()]} ${MESES_CORTOS[d.getMonth()]} ${d.getDate()}`;
   const list = $("list"); list.innerHTML = "";
   const evs = eventsOn(sel);
   if(!evs.length){ list.innerHTML = `<div class="empty">Sin eventos este día</div>`; return; }
